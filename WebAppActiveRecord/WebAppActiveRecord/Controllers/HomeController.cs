@@ -39,6 +39,10 @@ namespace WebAppActiveRecord.Controllers
                 return View("Login",user);
             }
         }
+
+        public JsonResult Hola() {
+            return Json(new {value = "Hola, todo bien" },JsonRequestBehavior.AllowGet);
+        }
         
     }
 }
