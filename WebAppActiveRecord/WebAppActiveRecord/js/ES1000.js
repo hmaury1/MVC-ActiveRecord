@@ -1,4 +1,4 @@
-﻿/*---comentario hmaury*/
+﻿/*Comentario*/
 Ext.require('*');
 Ext.onReady(function () {
     var perfil = Ext.get('hLeft');
