@@ -1,5 +1,4 @@
-﻿console.log("OK");
-Ext.require('*');
+﻿Ext.require('*');
 Ext.onReady(function () {
     var perfil = Ext.get('hLeft');
     perfil.on("click", function (e,element) {
@@ -33,6 +32,17 @@ Ext.onReady(function () {
                                 };
                                 combo.hide();
                                 
+                        },
+                        select2: function (combo, records, eOpts) {
+                            var name = combo.perfil.getAttribute("name")
+                            var els = document.getElementsByName(name);
+                            for (var i = 0; i < els.length; i++) {
+                                var ctx = els[i].getContext("2d");
+                                ctx.fillStyle = records[0].get("name");
+                                ctx.fillRect(0, 0, ctx.canvas.offsetWidth, ctx.canvas.offsetHeight);
+                            };
+                            combo.hide();
+
                         }
                 }
             });
