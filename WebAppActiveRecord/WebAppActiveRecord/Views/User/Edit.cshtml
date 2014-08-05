@@ -1,0 +1,59 @@
+﻿@{
+    Layout = "~/Views/Layout/_Layout.cshtml";
+}
+
+@using  Castle.Components.Validator;
+@model WebAppActiveRecord.Models.User
+
+<br />
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Basic Form Elements
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <form role="form" action="/User/Save" method="post">
+                        
+                        @if (Model.ValidationErrorMessages != null)
+                        {
+                            <div class="form-group">  
+                            @foreach (string error in Model.ValidationErrorMessages)
+                            {
+                                 <p style="color:red;">@error</p>
+                            }
+                            </div>
+                        }
+                        
+                        <div class="form-group">
+                            <label>ID:</label>
+                            <input class="form-control" name="id" value="@Model.Id" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" type="text" name="name" value="@Model.Name" />
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="form-control" type="text" name="password" value="@Model.Password" />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" type="text" name="email" value="@Model.Email" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit Button</button>
+                        <button type="reset" class="btn btn-default">Reset Button</button>
+</form>
+            </div>
+            <!-- /.col-lg-6 (nested) -->
+            <div class="col-lg-6">
+                
+            </div>
+            <!-- /.col-lg-6 (nested) -->
+        </div>
+        <!-- /.row (nested) -->
+    </div>
+    <!-- /.panel-body -->
+</div>
