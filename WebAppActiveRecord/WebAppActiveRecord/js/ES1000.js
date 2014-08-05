@@ -1,4 +1,5 @@
-﻿Ext.require('*');
+﻿/*Comentario*/
+Ext.require('*');
 Ext.onReady(function () {
     var perfil = Ext.get('hLeft');
     perfil.on("click", function (e,element) {
