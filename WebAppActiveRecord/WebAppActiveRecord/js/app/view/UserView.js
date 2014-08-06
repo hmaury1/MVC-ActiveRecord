@@ -10,17 +10,58 @@
     renderTo: 'panelExtjs',
     columns: [
         { text: 'ID', dataIndex: 'Id' },
-        { text: 'Name', dataIndex: 'Name' },
-        { text: 'Email', dataIndex: 'Email', flex: 1 },
-        { text: 'Password', dataIndex: 'Password', flex: 1 }
+        {
+            text: 'Name',
+            dataIndex: 'Name',
+            editor: {
+                xtype: 'textfield',
+                allowBlank: false
+            }
+        },
+        {
+            text: 'Email',
+            dataIndex: 'Email',
+            flex: 1,
+            editor: {
+                xtype: 'textfield',
+                allowBlank: false
+            }
+        },
+        {
+            text: 'Password',
+            dataIndex: 'Password',
+            flex: 1,
+            editor: {
+                xtype: 'textfield',
+                allowBlank: false
+            }
+        }
     ],
     dockedItems: [{
         xtype: 'toolbar',
         dock: 'top',
         items: [{
-            text: 'New',
+            text: 'New (form)',
+            hidden:true,
             action: 'new'
+        },
+        {
+            text: 'New',
+            action: 'insert'
+        },
+        {
+            text: 'Delete',
+            action: 'delete'
+        },
+        {
+            text: 'Save',
+            hidden:true,
+            action: 'sync'
         }]
-    }]
+    }],
+    plugins: {
+        ptype: 'cellediting',
+        clicksToEdit: 1
+    }
     
 });

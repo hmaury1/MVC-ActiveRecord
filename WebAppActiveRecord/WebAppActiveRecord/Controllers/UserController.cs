@@ -72,21 +72,28 @@ namespace WebAppActiveRecord.Controllers
             return Json(new { users = UserList },JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult guardar(User UserInstance)
+        public ActionResult Guardar(User UserInstance)
         {
-            if (UserInstance.IsValid())
+            User user = UserInstance.Id == 0 ? UserInstance : ActiveRecordBase<User>.Find(UserInstance.Id);
+            user.setProperties(UserInstance);
+
+            if (user.IsValid())
             {
-                UserInstance.Save();
-                return Json(new { success=true, msg="OK"  });
+                user.Save();
+                return Json(new { success=true, msg="Guardado correctamente"});
             }
             else
             {
-                return Json(new { success = false, msg = UserInstance.ValidationErrorMessages[0].ToString() });
+                return Json(new { success = false, msgs = user.ValidationErrorMessages[0].ToString(), errors = UserInstance.ValidationErrorMessages });
             }
 
         }
 
-        // esto es un comentario!!!...
+        public ActionResult Eliminar(User UserInstance)
+        {
+            UserInstance.Delete();
+            return Json(new { success = true, msg = "Eliminado correctamente" });
+        }
 
         #endregion
     }

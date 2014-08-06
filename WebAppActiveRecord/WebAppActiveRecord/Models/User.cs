@@ -5,7 +5,6 @@ using System.Web;
 using Castle.ActiveRecord;
 using Castle.Components.Validator;
 using System.Web.Script.Serialization;
-using Castle.ActiveRecord.Queries;
 
 
 namespace WebAppActiveRecord.Models
@@ -24,14 +23,19 @@ namespace WebAppActiveRecord.Models
         public int Id
         {
             get { return id; }
-            set { id = value; }
+            set {
+                id = value; 
+            }
         }
 
         [Property]
         public String Name
         {
             get { return name; }
-            set { name = value; }
+            set {
+                if (value != null)
+                name = value; 
+            }
         }
 
         [Property]
@@ -39,35 +43,33 @@ namespace WebAppActiveRecord.Models
         public String Password
         {
             get { return password; }
-            set { password = value; }
+            set {
+                if (value != null)
+                password = value; 
+            }
         }
 
         [Property, ValidateEmail]
         public String Email
         {
             get { return email; }
-            set { email = value; }
+            set {
+                if (value != null)
+                email = value; 
+            }
         }
 
-        [ValidateNonEmpty]
         public String MsgError
         {
             get { return msgError; }
             set { msgError = value; }
         }
 
-        public User Authentication() {
-            SimpleQuery<User> q = new SimpleQuery<User>(@" from User u where u.Name = :name And u.Password = :password");
-            q.SetParameter("name", this.Name);
-            q.SetParameter("password", this.Password);
-            var list = q.Execute().ToList();
-            if (list.Count() > 0) {
-                return list[0];
-            } else   {
-                this.MsgError = "Usuario o contraseña incorrecto";
-                return null;            
-            }
+        internal void setProperties(User UserInstance)
+        {
+            this.Name = UserInstance.Name;
+            this.Password = UserInstance.Password;
+            this.Email = UserInstance.Email;
         }
-
     }
 }

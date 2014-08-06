@@ -3,11 +3,25 @@
     model: 'MyApp.model.UserModel',
     proxy: {
         type: 'ajax',
-        url: '/User/Obtener',
+        api: {
+            read: '/User/Obtener',
+            create: '/User/Guardar',
+            update: '/User/Guardar',
+            destroy: '/User/Eliminar'
+        },
         reader: {
+            type: 'json',
+            root: 'users'
+        },
+        writer: {
             type: 'json',
             root: 'users'
         }
     },
-    autoLoad: true
+    autoLoad: true,
+    listeners: {
+    beforesync: function (options, eOpts) {
+        console.log(options, eOpts);
+    }
+        }
 });

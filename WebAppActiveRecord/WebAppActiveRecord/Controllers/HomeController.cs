@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebAppActiveRecord.Models;
 using Castle.ActiveRecord;
+using Castle.ActiveRecord.Queries;
 
 namespace WebAppActiveRecord.Controllers
 {
@@ -29,11 +30,22 @@ namespace WebAppActiveRecord.Controllers
             return View("Login",new User());
         }
 
-        [AllowAnonymous]
-        public ActionResult Authentication(User user)
+        [HttpPost, AllowAnonymous]
+        public ActionResult Authentication(User UserInstance)
         {
-            User auth = user.Authentication();
-            if (auth != null) {
+            User user = new User();            
+            SimpleQuery<User> q = new SimpleQuery<User>(@" from User u where u.Name = :name And u.Password = :password");
+            q.SetParameter("name", UserInstance.Name);
+            q.SetParameter("password", UserInstance.Password);
+            var list = q.Execute().ToList();
+            if (list.Count() > 0) {
+                user = list[0];
+            } else {
+                user.MsgError = "Usuario o contraseña incorrecto";
+            }
+
+            if (user.Id != null && user.Id != 0) {
+                Session["user"] = user;
                 return View("Index");
             } else {
                 return View("Login",user);
