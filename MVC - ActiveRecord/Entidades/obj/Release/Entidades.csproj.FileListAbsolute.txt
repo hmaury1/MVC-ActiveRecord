@@ -1,0 +1,5 @@
+C:\Users\hmaury\Source\Repos\MVC-ActiveRecord\WebAppActiveRecord\Entidades\bin\Release\Entidades.dll
+C:\Users\hmaury\Source\Repos\MVC-ActiveRecord\WebAppActiveRecord\Entidades\bin\Release\Entidades.pdb
+C:\Users\hmaury\Source\Repos\MVC-ActiveRecord\WebAppActiveRecord\Entidades\obj\Release\Entidades.csprojResolveAssemblyReference.cache
+C:\Users\hmaury\Source\Repos\MVC-ActiveRecord\WebAppActiveRecord\Entidades\obj\Release\Entidades.dll
+C:\Users\hmaury\Source\Repos\MVC-ActiveRecord\WebAppActiveRecord\Entidades\obj\Release\Entidades.pdb
