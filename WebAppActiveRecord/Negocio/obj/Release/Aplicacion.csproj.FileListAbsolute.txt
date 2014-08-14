@@ -1,0 +1,1 @@
+C:\Users\hmaury\Source\Repos\MVC-ActiveRecord\WebAppActiveRecord\Negocio\obj\Release\Aplicacion.csprojResolveAssemblyReference.cache

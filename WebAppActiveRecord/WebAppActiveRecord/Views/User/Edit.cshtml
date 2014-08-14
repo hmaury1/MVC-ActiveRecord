@@ -3,7 +3,7 @@
 }
 
 @using  Castle.Components.Validator;
-@model WebAppActiveRecord.Models.User
+@model Entidades.User
 
 <br />
 
@@ -17,13 +17,10 @@
             <div class="col-lg-6">
                 <form role="form" action="/User/Save" method="post">
                         
-                        @if (Model.ValidationErrorMessages != null)
+                        @if (ViewData["MsgError"] != null)
                         {
-                            <div class="form-group">  
-                            @foreach (string error in Model.ValidationErrorMessages)
-                            {
-                                 <p style="color:red;">@error</p>
-                            }
+                            <div class="form-group">
+                                 <p style="color:red;">@ViewData["MsgError"]</p>
                             </div>
                         }
                         

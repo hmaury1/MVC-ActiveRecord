@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using Castle.ActiveRecord;
 using Castle.Components.Validator;
-using System.Web.Script.Serialization;
 using System.Collections;
+using Omu.ValueInjecter;
 
-namespace WebAppActiveRecord.Models
+namespace Models
 {
     
     [ActiveRecord(Table = "tipo_roles", Schema = "test")]
@@ -17,6 +17,20 @@ namespace WebAppActiveRecord.Models
         private string descripcion;
         private bool estado;
         private IList roles = new ArrayList();
+
+        public TipoRoles()
+        {
+           
+        }
+        
+        public TipoRoles(string descripcion, bool estado)
+        {
+            // TODO: Complete member initialization
+            this.descripcion = descripcion;
+            this.estado = estado;
+        }
+
+
 
         [PrimaryKey(PrimaryKeyType.Native)]
         public int Id
@@ -39,11 +53,11 @@ namespace WebAppActiveRecord.Models
             set { estado = value; }
         }
 
-        [HasMany(typeof(Rol), Table = "roles", ColumnKey = "tipo"), ScriptIgnore]
+        [HasMany(typeof(Rol), Table = "roles", ColumnKey = "tipo", Cascade=ManyRelationCascadeEnum.All )]
         public IList Roles
         {
-            get { return roles; }
-            set { roles = value; }
+            get { return (from r in (List<Rol>) roles select (Entidades.Rol)new Entidades.Rol().InjectFrom(r)).ToList(); }
+            set { roles = (from r in (List<Entidades.Rol>)value select (Models.Rol) new Models.Rol().InjectFrom(r)).ToList(); }
         }
 
         public string RolesList {

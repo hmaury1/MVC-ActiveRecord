@@ -8,7 +8,11 @@
         'UserStore'
     ],
     init: function () {
+
+        document.getElementById("panelExtjs").innerHTML = "";
         Ext.widget("user").show();
+
+        //setTimeout('document.getElementById("panelExtjs").innerHTML = ""; Ext.widget("user").show();', 5000);
         this.control({
             'user button[action=new]': {
                 click: this.showEdit

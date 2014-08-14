@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebAppActiveRecord.Models;
-using Castle.ActiveRecord;
-using Castle.ActiveRecord.Queries;
 
 namespace WebAppActiveRecord.Controllers
 {
@@ -27,34 +24,21 @@ namespace WebAppActiveRecord.Controllers
 
         [AllowAnonymous]
         public ActionResult Login() {
-            return View("Login",new User());
+            return View("Login", new Entidades.User());
         }
 
         [HttpPost, AllowAnonymous]
-        public ActionResult Authentication(User UserInstance)
+        public ActionResult Authentication(Entidades.User UserInstance)
         {
-            User user = new User();            
-            SimpleQuery<User> q = new SimpleQuery<User>(@" from User u where u.Name = :name And u.Password = :password");
-            q.SetParameter("name", UserInstance.Name);
-            q.SetParameter("password", UserInstance.Password);
-            var list = q.Execute().ToList();
-            if (list.Count() > 0) {
-                user = list[0];
+            UserInstance = Aplicacion.User.Authentication(UserInstance);
+            if (UserInstance.Id != 0)
+            {
+                Session["user"] = UserInstance;
+                return Redirect("/Home");
             } else {
-                user.MsgError = "Usuario o contraseña incorrecto";
-            }
-
-            if (user.Id != null && user.Id != 0) {
-                Session["user"] = user;
-                return View("Index");
-            } else {
-                return View("Login",user);
+                this.ViewData.Add("MsgError", "Usuario o contraseña incorrecto!!!");
+                return View("Login", UserInstance);
             }
         }
-
-        public JsonResult Hola() {
-            return Json(new {value = "Hola, todo bien" },JsonRequestBehavior.AllowGet);
-        }
-        
     }
 }

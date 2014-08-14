@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebAppActiveRecord.Models;
-using Castle.ActiveRecord;
 
 
 namespace WebAppActiveRecord.Controllers
@@ -17,35 +15,34 @@ namespace WebAppActiveRecord.Controllers
         #region Con Razor
         public ActionResult Index()
         {
-            var UserList = ActiveRecordBase<User>.FindAll().ToList();
+            var UserList = Aplicacion.User.Lista();
             return View("Index", UserList);
         }
 
-        public ActionResult Save(User UserInstance)
+        public ActionResult Save(Entidades.User UserInstance)
         {
-            if (UserInstance.IsValid())
+            try
             {
-                UserInstance.Save();
+                Aplicacion.User.Guardar(UserInstance);
                 return Index();
             }
-            else
+            catch (Exception e)
             {
+                this.ViewData.Add("MsgError", e.Message);
                 return View("Edit", UserInstance);
             }
-
         }
 
         public ActionResult Edit(int id)
         {
-            // comment
-            User UserInstance = null;
+            Entidades.User UserInstance = null;
             if (id == 0)
             {
-                UserInstance = new User();
+                UserInstance = new Entidades.User();
             }
             else
             {
-                UserInstance = ActiveRecordBase<User>.Find(id);
+                UserInstance = Aplicacion.User.Obtener(id);
             }
 
             return View(UserInstance);
@@ -53,48 +50,38 @@ namespace WebAppActiveRecord.Controllers
 
         public ActionResult Delete(int id)
         {
-            var UserInstance = ActiveRecordBase<User>.Find(id);
-            UserInstance.Delete();
+            Aplicacion.User.Eliminar(id);
             return Index();
         }
-
-        public JsonResult Encode(int id)
-        {
-            var UserInstance = ActiveRecordBase<User>.Find(id);
-            return Json(UserInstance, JsonRequestBehavior.AllowGet);
-        }
         #endregion
-
+        
         #region Con Extjs
 
         public JsonResult Obtener() {
-            var UserList = ActiveRecordBase<User>.FindAll().ToList();
+            var UserList = Aplicacion.User.Lista();
             return Json(new { users = UserList },JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult Guardar(User UserInstance)
+        
+        public ActionResult Guardar(Entidades.User UserInstance)
         {
-            User user = UserInstance.Id == 0 ? UserInstance : ActiveRecordBase<User>.Find(UserInstance.Id);
-            user.setProperties(UserInstance);
-
-            if (user.IsValid())
+            try
             {
-                user.Save();
-                return Json(new { success=true, msg="Guardado correctamente"});
+                Aplicacion.User.Guardar(UserInstance);
+                return Json(new { success = true, errors = ""});
             }
-            else
+            catch (Exception e)
             {
-                return Json(new { success = false, msgs = user.ValidationErrorMessages[0].ToString(), errors = UserInstance.ValidationErrorMessages });
+                return Json(new { success = false, errors = e.Message});
             }
-
         }
-
-        public ActionResult Eliminar(User UserInstance)
+        
+        public ActionResult Eliminar(Entidades.User UserInstance)
         {
-            UserInstance.Delete();
+            Aplicacion.User.Eliminar(UserInstance.Id);
             return Json(new { success = true, msg = "Eliminado correctamente" });
         }
-
+        
         #endregion
+        
     }
 }
