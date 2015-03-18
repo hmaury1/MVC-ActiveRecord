@@ -11,7 +11,6 @@ Ext.onReady(function () {
                         { name: 'BLUE', desc: 'BLUE' },
                         { name: 'GREEN', desc: 'GREEN' },
                         { name: 'BLACK', desc: 'BLACK' },
-
                     ],
                     fields: ['name', 'desc']
                 }),
